@@ -126,3 +126,7 @@ bool Date::operator==(const Date& date)
 //{
 //	// TODO: вставьте здесь оператор return
 //}
+<<<<<<< HEAD
+=======
+
+>>>>>>> b021e419c237ed489637fee291d22a0173446cc3
