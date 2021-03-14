@@ -25,4 +25,3 @@ public:
 	friend istream& operator >> (ostream& in, const Date& date);
 	
 };
-
