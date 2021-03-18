@@ -2,11 +2,13 @@
 #include <iostream>
 #include <assert.h>
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
 class Date
 {
+private:
 	int Day, Month, Year;
 public:
 	Date();
@@ -22,6 +24,6 @@ public:
 	bool operator >= (const Date& date);
 	bool operator == (const Date& date);
 	friend ostream& operator << (ostream& out, const Date& date);
-	friend istream& operator >> (ostream& in, const Date& date);
+	friend istream& operator >> (istream& in,  Date& date);
 	
 };
