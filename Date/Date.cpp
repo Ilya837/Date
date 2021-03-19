@@ -73,28 +73,23 @@ Date Date::operator=(const Date& date)
 	return *this;
 }
 
+bool visokos(int year) {
+	return (year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0) ? true : false;
+}
 Date Date::operator+(const int& days) const
 {
 	int day = days;
 	Date d = *this;
 	if (day >= 0) {
-		if (day >= 365249) {
-			d.Year += 1000 * (int)(day / 365249);
-			day = day % 365249;
-		}
-		if (day >= 36524) {
-			d.Year += 100 * (int)(day / 36524);
-			day = day % 36524;
-		}
 		while (day > 365) {
 			
-				if (d.Month > 2 ? (d.Year + 1) % 4 != 0 || (d.Year + 1) % 100 == 0 : d.Year  % 4 != 0 || d.Year % 100 == 0) {
+				if (d.Month > 2 ? visokos(d.Year + 1 ) : visokos(d.Year )) {
 					d.Year++;
-					day = day - 365;
+					day = day - 366;
 				}
 				else {
 					d.Year++;
-					day = day - 366;
+					day = day - 365;
 				}
 			
 		}
@@ -113,7 +108,7 @@ Date Date::operator+(const int& days) const
 				}
 			}
 			else {
-				if (d.Year % 4 != 0 || d.Year % 100 == 0) {
+				if (!visokos(d.Year)) {
 					if (d.Day < Days[d.Month]) {
 						d.Day++;
 					}
@@ -132,6 +127,57 @@ Date Date::operator+(const int& days) const
 					}
 				}
 				
+			}
+		}
+	}
+	else {
+		while (day < -365) {
+
+			if (d.Month <= 2 ? visokos(d.Year - 1) : visokos(d.Year )) {
+				d.Year--;
+				day = day + 366;
+			}
+			else {
+				d.Year--;
+				day = day + 365;
+			}
+
+		}
+		for (int i = 0; i > day; i--) {
+			if (d.Month != 3) {
+				if (d.Day > 1) {
+					d.Day--;
+				}
+				else {
+					
+					d.Month--;
+					if (d.Month == 0) {
+						d.Year--;
+						d.Month = 12;
+					}
+					d.Day = Days[d.Month];
+				}
+			}
+			else {
+				if (!visokos(d.Year)) {
+					if (d.Day > 1) {
+						d.Day--;
+					}
+					else {
+						d.Day = 28;
+						d.Month--;
+					}
+				}
+				else {
+					if (d.Day > 1) {
+						d.Day--;
+					}
+					else {
+						d.Day = 29;
+						d.Month--;
+					}
+				}
+
 			}
 		}
 	}
