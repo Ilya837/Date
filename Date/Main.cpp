@@ -2,7 +2,7 @@
 
 int main() {
 
-	Date d = Date("16:10:1818");
-	
-	cout << d + (-12424673);
+	Date* d = new Date("01:01:2001");
+	cin >> *d;
+	cout <<( *d );
 }

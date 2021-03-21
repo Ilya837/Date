@@ -73,25 +73,28 @@ Date Date::operator=(const Date& date)
 	return *this;
 }
 
-bool visokos(int year) {
+bool visokos(int year) { // Проверка года на високосность
 	return (year) % 4 == 0 && ((year) % 100 != 0 || (year) % 400 == 0) ? true : false;
-}
-Date Date::operator+(const int& days) const
+} 
+
+Date Date::operator+(const  long double & days) const
 {
-	int day = days;
+	long double day = days;
 	Date d = *this;
 	if (day >= 0) {
 		while (day > 365) {
 			
-				if (d.Month > 2 ? visokos(d.Year + 1 ) : visokos(d.Year )) {
-					d.Year++;
-					day = day - 366;
-				}
-				else {
-					d.Year++;
-					day = day - 365;
-				}
-			
+			if (d.Month > 2 ? visokos(d.Year + 1 ) : visokos(d.Year )) {
+				d.Year++;
+				day = day - 366;
+			}
+			else {
+				d.Year++;
+				day = day - 365;
+			}
+			if (d.Year < 0) {
+				return (Date(31, 12, INT_MAX));
+			}
 		}
 		for (int i = 0; i < day;i++) {
 			if (d.Month != 2) {
@@ -129,6 +132,9 @@ Date Date::operator+(const int& days) const
 				
 			}
 		}
+		if (d.Year < 0) {
+			return (Date(31, 12, INT_MAX));
+		}
 	}
 	else {
 		while (day < -365) {
@@ -140,6 +146,9 @@ Date Date::operator+(const int& days) const
 			else {
 				d.Year--;
 				day = day + 365;
+			}
+			if (d.Year < 0) {
+				return (Date(1, 1, 0));
 			}
 
 		}
@@ -179,10 +188,17 @@ Date Date::operator+(const int& days) const
 				}
 
 			}
+			if (d.Year < 0) {
+				return (Date(1, 1, 0));
+			}
 		}
 	}
 
 	return d;
+}
+
+Date Date::operator - (const long double& days) const {
+	return(*this + (-1) * days);
 }
 
 bool Date::operator<(const Date& date)
@@ -219,8 +235,7 @@ bool Date::operator>=(const Date& date)
 
 bool Date::operator==(const Date& date)
 {
-	if (date.Year == Year && date.Month == Month && date.Day == Day) return true;
-	return false;
+	return date.Year == Year && date.Month == Month && date.Day == Day;
 }
 
 ostream& operator<<(ostream& out, const Date& date)
